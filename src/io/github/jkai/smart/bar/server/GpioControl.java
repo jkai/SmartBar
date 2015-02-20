@@ -1,11 +1,21 @@
-package io.github.jkai.main.logic;
+package io.github.jkai.smart.bar.server;
+
+import java.io.Serializable;
 
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.RaspiPin;
 
-public class GpioControl{
+public class GpioControl implements Serializable,Cloneable{
+
+	private static final long serialVersionUID = 1L;
+	private final static String SUCESSFUL_INFO = "Connected to RMI Server\n";
+	
+	public GpioControl (){
+		
+	}
+	
 	public void test1 () throws InterruptedException{
 		final GpioController gpio = GpioFactory.getInstance();
 
@@ -41,4 +51,9 @@ public class GpioControl{
 
 		gpio.shutdown();
 	}
+	
+	public void connected(){
+		System.out.println(SUCESSFUL_INFO);
+	}
+	
 }
