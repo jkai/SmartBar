@@ -10,7 +10,7 @@ import com.pi4j.io.gpio.RaspiPin;
 public class GpioControl implements Serializable,Cloneable{
 
 	private static final long serialVersionUID = 1L;
-	private final static String SUCESSFUL_INFO = "Connected to RMI Server\n";
+	private final static String SUCESSFUL_INFO = "Client is connected\n";
 	
 	public GpioControl (){
 		
@@ -54,6 +54,11 @@ public class GpioControl implements Serializable,Cloneable{
 	
 	public void connected(){
 		System.out.println(SUCESSFUL_INFO);
+	}
+
+	public void pinOn(int pinNo) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

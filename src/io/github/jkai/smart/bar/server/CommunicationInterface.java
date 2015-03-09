@@ -5,6 +5,12 @@ import java.rmi.RemoteException;
 
 public interface CommunicationInterface extends Remote {
 	
-	public void test() throws RemoteException;
-
+	public void pinOn(int pinNo) throws RemoteException;
+	
+	public void pinOff(int pinNo) throws RemoteException;
+	
+	public void pinToggle(int pinNo) throws RemoteException;
+	
+	public void sendPulse(int pinNo) throws RemoteException;
+	
 }
