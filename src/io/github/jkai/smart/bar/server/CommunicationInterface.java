@@ -13,4 +13,8 @@ public interface CommunicationInterface extends Remote {
 	
 	public void sendPulse(int pinNo) throws RemoteException;
 	
+	public void shutOff() throws RemoteException;
+	
+	public double getFlowrate() throws RemoteException;
+	
 }
