@@ -1,4 +1,4 @@
-package io.github.jkai.smart.bar.server;
+package io.github.jkai.smart.bar;
 
 import java.io.Serializable;
 
@@ -27,8 +27,8 @@ public class GpioControl implements Serializable, Cloneable {
 		gpio = GpioFactory.getInstance();
 		pin0 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00,
 				PinPullResistance.PULL_DOWN);
-		pin1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "pump#1");
-		pin2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_02, "pump#2");
+		pin1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_05, "pump#1");
+		pin2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_06, "pump#2");
 		pin3 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "pump#3");
 		pin4 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "valve");
 	}
@@ -100,4 +100,6 @@ public class GpioControl implements Serializable, Cloneable {
 	private void countUp() {
 		flowCounter++;
 	}
+	
+	
 }

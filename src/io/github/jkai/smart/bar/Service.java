@@ -1,13 +1,15 @@
-package io.github.jkai.smart.bar.server;
+package io.github.jkai.smart.bar;
 
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 
-import io.github.jkai.smart.bar.server.GpioControl;
+public class Service extends UnicastRemoteObject implements
+		CommunicationInterface {
 
-public class CommunicationInterfaceImpl implements CommunicationInterface {
+	private static final long serialVersionUID = 1L;
 
-	public CommunicationInterfaceImpl() throws RemoteException {
-		super();
+	protected Service(int port) throws RemoteException {
+		super(port);
 	}
 
 	@Override
@@ -88,4 +90,9 @@ public class CommunicationInterfaceImpl implements CommunicationInterface {
 		return gpioController.flowRate();
 	}
 
+	@Override
+	public void test() throws RemoteException {
+		System.out.println("Good\n");
+
+	}
 }

@@ -1,9 +1,13 @@
-package io.github.jkai.smart.bar.server;
+package io.github.jkai.smart.bar;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface CommunicationInterface extends Remote {
+	
+	public static final String SMART_BAR_SERVEICE = "SmartBarServer";
+	public static final int RMIRegistryPort = 2024;
+	public static final int ServicePort = 2025;
 	
 	public void pinOn(int pinNo) throws RemoteException;
 	
@@ -16,5 +20,7 @@ public interface CommunicationInterface extends Remote {
 	public void shutOff() throws RemoteException;
 	
 	public double getFlowrate() throws RemoteException;
+	
+	public void test() throws RemoteException;
 	
 }
