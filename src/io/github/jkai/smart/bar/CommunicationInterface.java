@@ -13,14 +13,14 @@ public interface CommunicationInterface extends Remote {
 	
 	public void pinOff(int pinNo) throws RemoteException;
 	
-	public void pinToggle(int pinNo) throws RemoteException;
-	
-	public void sendPulse(int pinNo) throws RemoteException;
-	
 	public void shutOff() throws RemoteException;
 	
 	public double getFlowrate() throws RemoteException;
 	
 	public void test() throws RemoteException;
+	
+	public void calibration() throws RemoteException;
+	
+	public boolean cupIsPresent() throws RemoteException;
 	
 }

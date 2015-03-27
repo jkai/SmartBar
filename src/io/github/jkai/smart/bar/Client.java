@@ -25,13 +25,20 @@ import javax.swing.text.DefaultCaret;
 public class Client extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private static final long shotTime = 30000;
 	private static CommunicationInterface ci = null;
+
 	private JTextArea statusBar;
 	private JButton orderButton;
 	private JButton shutButton;
 	private JRadioButton pickDrink1;
 	private JRadioButton pickDrink2;
 	private JRadioButton pickDrink3;
+	private JRadioButton pickDrink4;
+	private JRadioButton pickDrink5;
+	private JRadioButton pickDrink6;
+	private JRadioButton pickDrink7;
+	private JRadioButton pickDrink8;
 
 	public Client(CommunicationInterface ciPar) {
 		super("The Smart Bar Ordering System");
@@ -48,7 +55,7 @@ public class Client extends JFrame {
 					BufferedReader br = new BufferedReader(is);
 					System.out.println("Enter the Server IP here:");
 					hostName = br.readLine();
-					CommunicationInterface ci = connectToServer(hostName);
+					ci = connectToServer(hostName);
 
 					Client application = new Client(ci);
 					application.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,8 +77,8 @@ public class Client extends JFrame {
 			System.setSecurityManager(new SecurityManager());
 		}
 		try {
-			ci = (CommunicationInterface) Naming.lookup("rmi://" + host
-					+ ":" + CommunicationInterface.RMIRegistryPort + "/"
+			ci = (CommunicationInterface) Naming.lookup("rmi://" + host + ":"
+					+ CommunicationInterface.RMIRegistryPort + "/"
 					+ CommunicationInterface.SMART_BAR_SERVEICE);
 			System.out.println("Connected to " + host + ":"
 					+ CommunicationInterface.RMIRegistryPort + "/"
@@ -147,38 +154,82 @@ public class Client extends JFrame {
 		lblPick.setBounds(16, 46, 378, 16);
 		this.getContentPane().add(lblPick);
 
-		pickDrink1 = new JRadioButton("Drink 1");
-		pickDrink1.setBounds(26, 74, 141, 23);
+		pickDrink1 = new JRadioButton("1.Sprite");
+		pickDrink1.setBounds(16, 87, 141, 23);
 		this.getContentPane().add(pickDrink1);
 
-		pickDrink2 = new JRadioButton("Drink 2");
-		pickDrink2.setBounds(26, 167, 141, 23);
+		pickDrink2 = new JRadioButton("2.Fizzy Orange");
+		pickDrink2.setBounds(188, 87, 141, 23);
 		this.getContentPane().add(pickDrink2);
 
-		pickDrink3 = new JRadioButton("Drink 3");
-		pickDrink3.setBounds(26, 268, 141, 23);
+		pickDrink3 = new JRadioButton("3.Fizzy Lemon");
+		pickDrink3.setBounds(16, 122, 141, 23);
 		this.getContentPane().add(pickDrink3);
+
+		pickDrink4 = new JRadioButton("4.Fizzy Fruit");
+		pickDrink4.setBounds(188, 122, 141, 23);
+		this.getContentPane().add(pickDrink4);
+
+		pickDrink5 = new JRadioButton("5.Sour Orange");
+		pickDrink5.setBounds(16, 157, 141, 23);
+		this.getContentPane().add(pickDrink5);
+
+		pickDrink6 = new JRadioButton("6.Fruity Orange");
+		pickDrink6.setBounds(188, 157, 141, 23);
+		this.getContentPane().add(pickDrink6);
+
+		pickDrink7 = new JRadioButton("7.Sour Fruit");
+		pickDrink7.setBounds(16, 192, 141, 23);
+		this.getContentPane().add(pickDrink7);
+
+		pickDrink8 = new JRadioButton("8.All-Star");
+		pickDrink8.setBounds(188, 192, 141, 23);
+		this.getContentPane().add(pickDrink8);
 
 		ButtonGroup drinkGroup = new ButtonGroup();
 		drinkGroup.add(pickDrink1);
 		drinkGroup.add(pickDrink2);
 		drinkGroup.add(pickDrink3);
+		drinkGroup.add(pickDrink4);
+		drinkGroup.add(pickDrink5);
+		drinkGroup.add(pickDrink6);
+		drinkGroup.add(pickDrink7);
+		drinkGroup.add(pickDrink8);
 	}
 
 	public void makeOrder() throws RemoteException, InterruptedException {
-		checkOrder();
+		if (ci.cupIsPresent()) {
+			checkOrder();
+		} else {
+			updateStatus("No cup detected!");
+		}
 	}
 
 	private void checkOrder() throws RemoteException, InterruptedException {
 		if (pickDrink1.isSelected()) {
-			updateStatus("Drink One is selected");
+			updateStatus("Drink 1 is selected");
 			proceedOrder(1);
 		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink Two is selected");
+			updateStatus("Drink 2 is selected");
 			proceedOrder(2);
 		} else if (pickDrink3.isSelected()) {
-			updateStatus("Drink Three is selected");
+			updateStatus("Drink 3 is selected");
 			proceedOrder(3);
+		} else if (pickDrink2.isSelected()) {
+			updateStatus("Drink 4 is selected");
+			proceedOrder(4);
+		} else if (pickDrink2.isSelected()) {
+			updateStatus("Drink 5 is selected");
+			proceedOrder(5);
+		} else if (pickDrink2.isSelected()) {
+			updateStatus("Drink 6 is selected");
+			proceedOrder(6);
+		} else if (pickDrink2.isSelected()) {
+			updateStatus("Drink 7 is selected");
+			proceedOrder(7);
+		} else if (pickDrink2.isSelected()) {
+			updateStatus("Drink 8 is selected");
+			proceedOrder(8);
 		} else {
 			updateStatus("Please select one drink!");
 		}
@@ -196,6 +247,21 @@ public class Client extends JFrame {
 		case 3:
 			orderDrink3();
 			break;
+		case 4:
+			orderDrink4();
+			break;
+		case 5:
+			orderDrink5();
+			break;
+		case 6:
+			orderDrink6();
+			break;
+		case 7:
+			orderDrink7();
+			break;
+		case 8:
+			orderDrink8();
+			break;
 		default:
 			break;
 		}
@@ -203,45 +269,61 @@ public class Client extends JFrame {
 	}
 
 	private void orderDrink1() throws RemoteException, InterruptedException {
-
-		ci.test();
-		// ci.pinOn(1);
-		// Thread.sleep(2000);
-		// ci.pinOff(1);
-		//
-		// ci.pinOn(2);
-		// Thread.sleep(2000);
-		// ci.pinOff(2);
-		//
-		//
-		//
-		// int amount_1 = 15;
-		// int amount_2 = 15;
-		// int amount_3 = 15;
-		// ci.pinOn(1);
-		// double duration = amount_1/ci.getFlowrate();
-		// Thread.sleep((long)duration);
-		// ci.pinOff(1);
-		//
-		// ci.pinOn(2);
-		// duration = amount_2/ci.getFlowrate();
-		// Thread.sleep((long)duration);
-		// ci.pinOff(2);
-		//
-		// ci.pinOn(3);
-		// duration = amount_3/ci.getFlowrate();
-		// Thread.sleep((long)duration);
-		// ci.pinOff(3);
+		ci.pinOn(4);
+		Thread.sleep(2 * shotTime);
+		ci.pinOff(4);
 	}
 
-	private void orderDrink2() {
-		// TODO Auto-generated method stub
-
+	private void orderDrink2() throws RemoteException, InterruptedException {
+		ci.pinOn(1);
+		ci.pinOn(2);
+		Thread.sleep(shotTime);
+		ci.pinOff(1);
+		ci.pinOff(2);
 	}
 
-	private void orderDrink3() {
-		// TODO Auto-generated method stub
+	private void orderDrink3() throws RemoteException, InterruptedException {
+		ci.pinOn(1);
+		ci.pinOn(3);
+		Thread.sleep(shotTime);
+		ci.pinOff(1);
+		ci.pinOff(3);
+	}
 
+	private void orderDrink4() throws RemoteException, InterruptedException {
+		ci.pinOn(2);
+		ci.pinOn(3);
+		Thread.sleep(shotTime);
+		ci.pinOff(2);
+		ci.pinOff(3);
+	}
+
+	private void orderDrink5() throws RemoteException, InterruptedException {
+		ci.pinOn(1);
+		Thread.sleep(shotTime);
+		ci.pinOff(1);
+	}
+
+	private void orderDrink6() throws RemoteException, InterruptedException {
+		ci.pinOn(2);
+		Thread.sleep(shotTime);
+		ci.pinOff(2);
+	}
+
+	private void orderDrink7() throws RemoteException, InterruptedException {
+		ci.pinOn(3);
+		Thread.sleep(shotTime);
+		ci.pinOff(3);
+	}
+
+	private void orderDrink8() throws RemoteException, InterruptedException {
+		ci.pinOn(1);
+		ci.pinOn(2);
+		ci.pinOn(3);
+		Thread.sleep(shotTime);
+		ci.pinOff(1);
+		ci.pinOff(2);
+		ci.pinOff(3);
 	}
 
 	private void stopOrder() throws RemoteException {
@@ -253,6 +335,7 @@ public class Client extends JFrame {
 
 	private void updateStatus(String text) {
 		statusBar.setText(text);
+		this.repaint();
 	}
 
 }
