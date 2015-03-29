@@ -207,28 +207,36 @@ public class Client extends JFrame {
 
 	private void checkOrder() throws RemoteException, InterruptedException {
 		if (pickDrink1.isSelected()) {
-			updateStatus("Drink 1 is selected");
+			updateStatus("Drink 1 is selected, Processing...");
+			Thread.sleep(500);
 			proceedOrder(1);
 		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 2 is selected");
+			updateStatus("Drink 2 is selected, Processing...");
+			Thread.sleep(500);
 			proceedOrder(2);
 		} else if (pickDrink3.isSelected()) {
-			updateStatus("Drink 3 is selected");
+			updateStatus("Drink 3 is selected, Processing...");
+			Thread.sleep(500);
 			proceedOrder(3);
 		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 4 is selected");
+			updateStatus("Drink 4 is selected, Processing...");
+			Thread.sleep(500);
 			proceedOrder(4);
 		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 5 is selected");
+			updateStatus("Drink 5 is selected, Processing...");
+			Thread.sleep(500);
 			proceedOrder(5);
 		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 6 is selected");
+			updateStatus("Drink 6 is selected, Processing...");
+			Thread.sleep(500);
 			proceedOrder(6);
 		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 7 is selected");
+			updateStatus("Drink 7 is selected, Processing...");
+			Thread.sleep(500);
 			proceedOrder(7);
 		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 8 is selected");
+			updateStatus("Drink 8 is selected, Processing...");
+			Thread.sleep(500);
 			proceedOrder(8);
 		} else {
 			updateStatus("Please select one drink!");

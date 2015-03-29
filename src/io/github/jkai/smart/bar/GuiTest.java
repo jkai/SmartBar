@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -16,7 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.text.DefaultCaret;
 
-public class Test {
+public class GuiTest {
 
 	private JFrame frame;
 	private JTextArea statusBar;
@@ -37,7 +36,7 @@ public class Test {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Test window = new Test();
+					GuiTest window = new GuiTest();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +48,7 @@ public class Test {
 	/**
 	 * Create the application.
 	 */
-	public Test() {
+	public GuiTest() {
 		initialize();
 	}
 
@@ -147,6 +146,7 @@ public class Test {
 		frame.getContentPane().add(pickDrink7);
 
 		pickDrink8 = new JRadioButton("All-Star");
+		pickDrink8.setToolTipText("A mix of two is just not enough...");
 		pickDrink8.setBounds(188, 192, 141, 23);
 		frame.getContentPane().add(pickDrink8);
 
