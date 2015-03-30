@@ -97,7 +97,7 @@ public class Service extends UnicastRemoteObject implements
 	}
 
 	@Override
-	public double getFlowrate() throws RemoteException {
+	public double getFlowTime(double volume) throws RemoteException {
 		long startTime = System.currentTimeMillis();
 		long currentTime;
 		double flow_rate;
@@ -114,13 +114,15 @@ public class Service extends UnicastRemoteObject implements
 
 		for (;;) {
 			currentTime = System.currentTimeMillis();
-			if (currentTime >= (startTime + 1000)) {
-				flow_rate = 7.5 * flowCounter;
+			if (currentTime >= (startTime + 500)) {
+				double flow_rate_per_hour = 3.75 * 1000 * flowCounter;
+				flow_rate = flow_rate_per_hour / 3600;
 				flowCounter = 0;
 				break;
 			}
 		}
-		return flow_rate / 3600;
+
+		return volume / flow_rate;
 
 	}
 

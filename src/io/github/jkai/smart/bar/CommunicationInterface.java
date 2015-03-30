@@ -15,7 +15,7 @@ public interface CommunicationInterface extends Remote {
 	
 	public void shutOff() throws RemoteException;
 	
-	public double getFlowrate() throws RemoteException;
+	public double getFlowTime(double volume) throws RemoteException;
 	
 	public void test() throws RemoteException;
 	

@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.text.DefaultCaret;
+import javax.swing.JTextPane;
 
 public class GuiTest {
 
@@ -57,14 +58,14 @@ public class GuiTest {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 400, 400);
+		frame.setBounds(100, 100, 400, 328);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		frame.getContentPane().setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 342, 388, 24);
+		scrollPane.setBounds(7, 276, 388, 24);
 		frame.getContentPane().add(scrollPane);
 
 		statusBar = new JTextArea();
@@ -82,7 +83,7 @@ public class GuiTest {
 
 		orderButton = new JButton("Order!");
 		orderButton.setFont(new Font("Courier", Font.PLAIN, 14));
-		orderButton.setBounds(6, 314, 191, 24);
+		orderButton.setBounds(2, 249, 104, 24);
 		orderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				makeOrder();
@@ -98,7 +99,7 @@ public class GuiTest {
 
 		shutButton = new JButton("Stop!");
 		shutButton.setFont(new Font("Courier", Font.PLAIN, 14));
-		shutButton.setBounds(198, 314, 196, 24);
+		shutButton.setBounds(99, 250, 104, 24);
 		shutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				stopOrder();
@@ -154,6 +155,11 @@ public class GuiTest {
 		drinkGroup.add(pickDrink1);
 		drinkGroup.add(pickDrink2);
 		drinkGroup.add(pickDrink3);
+		
+		JButton btnCalibration = new JButton("Calibration");
+		btnCalibration.setFont(new Font("Courier", Font.PLAIN, 14));
+		btnCalibration.setBounds(198, 251, 194, 24);
+		frame.getContentPane().add(btnCalibration);
 		
 	
 	}

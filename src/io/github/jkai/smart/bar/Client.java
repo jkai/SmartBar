@@ -26,6 +26,7 @@ public class Client extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private static final long shotTime = 30000;
+	private static final double volume_in_L = 0.1;
 	private static CommunicationInterface ci = null;
 
 	private JTextArea statusBar;
@@ -39,6 +40,7 @@ public class Client extends JFrame {
 	private JRadioButton pickDrink6;
 	private JRadioButton pickDrink7;
 	private JRadioButton pickDrink8;
+	private JButton calibration;
 
 	public Client(CommunicationInterface ciPar) {
 		super("The Smart Bar Ordering System");
@@ -99,12 +101,12 @@ public class Client extends JFrame {
 
 	private void initialize() {
 		getFrame().setResizable(false);
-		getFrame().setBounds(100, 100, 400, 400);
+		getFrame().setBounds(100, 100, 400, 328);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.getContentPane().setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 342, 388, 24);
+		scrollPane.setBounds(7, 276, 388, 24);
 		this.getContentPane().add(scrollPane);
 
 		statusBar = new JTextArea();
@@ -122,7 +124,7 @@ public class Client extends JFrame {
 
 		orderButton = new JButton("Order!");
 		orderButton.setFont(new Font("Courier", Font.PLAIN, 14));
-		orderButton.setBounds(80, 303, 117, 35);
+		orderButton.setBounds(2, 250, 104, 24);
 		orderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -137,7 +139,7 @@ public class Client extends JFrame {
 
 		shutButton = new JButton("Stop!");
 		shutButton.setFont(new Font("Courier", Font.PLAIN, 14));
-		shutButton.setBounds(220, 303, 117, 35);
+		shutButton.setBounds(99, 250, 104, 24);
 		shutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -149,6 +151,21 @@ public class Client extends JFrame {
 
 		});
 		this.getContentPane().add(shutButton);
+
+		calibration = new JButton("Calibration");
+		calibration.setFont(new Font("Courier", Font.PLAIN, 14));
+		calibration.setBounds(198, 251, 194, 24);
+		calibration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					calibrate();
+				} catch (RemoteException | InterruptedException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+		});
+		this.getContentPane().add(calibration);
 
 		JLabel lblPick = new JLabel("Pick your drink:");
 		lblPick.setBounds(16, 46, 378, 16);
@@ -195,6 +212,13 @@ public class Client extends JFrame {
 		drinkGroup.add(pickDrink6);
 		drinkGroup.add(pickDrink7);
 		drinkGroup.add(pickDrink8);
+	}
+
+	protected void calibrate() throws RemoteException, InterruptedException {
+		updateStatus("Calibrating Cup Detector..");
+		Thread.sleep(500);
+		ci.calibration();
+		updateStatus("Cup Detector is ready");
 	}
 
 	public void makeOrder() throws RemoteException, InterruptedException {
@@ -278,7 +302,7 @@ public class Client extends JFrame {
 
 	private void orderDrink1() throws RemoteException, InterruptedException {
 		ci.pinOn(4);
-		Thread.sleep(2 * shotTime);
+		Thread.sleep((long) ci.getFlowTime(volume_in_L) - 500);
 		ci.pinOff(4);
 	}
 
