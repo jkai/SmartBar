@@ -30,6 +30,9 @@ public class GuiTest {
 	private JRadioButton pickDrink6;
 	private JRadioButton pickDrink7;
 	private JRadioButton pickDrink8;
+	private Thread order;
+	private OrderHandler oh;
+
 	/**
 	 * Launch the application.
 	 */
@@ -89,11 +92,6 @@ public class GuiTest {
 				makeOrder();
 			}
 
-			private void makeOrder() {
-				// TODO Auto-generated method stub
-				
-			}
-
 		});
 		frame.getContentPane().add(orderButton);
 
@@ -107,14 +105,14 @@ public class GuiTest {
 
 			private void stopOrder() {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 		});
 		frame.getContentPane().add(shutButton);
 
 		JLabel lblPick = new JLabel("Pick your drink:");
-		lblPick.setBounds(16, 46, 378, 16);
+		lblPick.setBounds(16, 46, 129, 16);
 		frame.getContentPane().add(lblPick);
 
 		pickDrink1 = new JRadioButton("Sprite");
@@ -155,12 +153,24 @@ public class GuiTest {
 		drinkGroup.add(pickDrink1);
 		drinkGroup.add(pickDrink2);
 		drinkGroup.add(pickDrink3);
-		
+
 		JButton btnCalibration = new JButton("Calibration");
 		btnCalibration.setFont(new Font("Courier", Font.PLAIN, 14));
 		btnCalibration.setBounds(198, 251, 194, 24);
 		frame.getContentPane().add(btnCalibration);
-		
-	
+
+		JLabel lblAbout = new JLabel("About");
+		lblAbout.setFont(new Font("Courier", Font.ITALIC, 12));
+		lblAbout.setToolTipText("[ELEC3907] Winter 2015 - Group Charlie, All Rights Reserved.");
+		lblAbout.setBounds(357, 28, 38, 16);
+		frame.getContentPane().add(lblAbout);
+
+	}
+
+	private void makeOrder() {
+		System.out.println("111");
+		oh = new OrderHandler();
+		oh.start();
+		System.out.println("222");
 	}
 }

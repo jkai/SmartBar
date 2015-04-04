@@ -6,7 +6,7 @@ public class CupDetector {
 	// Configurables
 	private int readDelay = 100; // in milliseconds
 	private int bufferSize = 9;// odd number for median
-	private static boolean verbose = true;
+	private static boolean verbose = false;
 	private int proxLowThreshold = 9000;
 	private int numRejectVals = 10;
 	private int minimumCupFactor = 3000;

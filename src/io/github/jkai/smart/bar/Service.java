@@ -36,7 +36,7 @@ public class Service extends UnicastRemoteObject implements
 		pin2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_03, "pump#2");
 		pin3 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_12, "pump#3");
 		pin4 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_13, "valve");
-		this.cupChecker = new CupDetector();
+		// this.cupChecker = new CupDetector();
 	}
 
 	@Override
@@ -121,8 +121,13 @@ public class Service extends UnicastRemoteObject implements
 				break;
 			}
 		}
-
-		return volume / flow_rate;
+		double time = volume / flow_rate;
+		if (time <= 0) {
+			return 2;
+		} else {
+			System.out.print(time);
+			return volume / flow_rate;
+		}
 
 	}
 
@@ -170,7 +175,8 @@ public class Service extends UnicastRemoteObject implements
 
 	@Override
 	public boolean cupIsPresent() throws RemoteException {
-		return cupChecker.checkForCup();
+		return true;
+		// return cupChecker.checkForCup();
 	}
 
 	@Override

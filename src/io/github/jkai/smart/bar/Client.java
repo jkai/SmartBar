@@ -25,9 +25,8 @@ import javax.swing.text.DefaultCaret;
 public class Client extends JFrame {
 
 	private static final long serialVersionUID = 1L;
-	private static final long shotTime = 30000;
-	private static final double volume_in_L = 0.1;
 	private static CommunicationInterface ci = null;
+	private OrderHandler oh;
 
 	private JTextArea statusBar;
 	private JButton orderButton;
@@ -106,8 +105,14 @@ public class Client extends JFrame {
 		this.getContentPane().setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(7, 276, 388, 24);
+		scrollPane.setBounds(7, 276, 383, 24);
 		this.getContentPane().add(scrollPane);
+
+		JLabel lblAbout = new JLabel("About");
+		lblAbout.setFont(new Font("Courier", Font.ITALIC, 12));
+		lblAbout.setToolTipText("[ELEC3907] Winter 2015 - Group Charlie, All Rights Reserved.");
+		lblAbout.setBounds(357, 28, 38, 16);
+		this.getContentPane().add(lblAbout);
 
 		statusBar = new JTextArea();
 		statusBar.setEditable(false);
@@ -124,7 +129,9 @@ public class Client extends JFrame {
 
 		orderButton = new JButton("Order!");
 		orderButton.setFont(new Font("Courier", Font.PLAIN, 14));
-		orderButton.setBounds(2, 250, 104, 24);
+		orderButton.setBounds(7, 250, 90, 24);
+		orderButton
+				.setToolTipText("Your drink will be processed after a simple click.");
 		orderButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -139,14 +146,11 @@ public class Client extends JFrame {
 
 		shutButton = new JButton("Stop!");
 		shutButton.setFont(new Font("Courier", Font.PLAIN, 14));
-		shutButton.setBounds(99, 250, 104, 24);
+		shutButton.setBounds(100, 250, 90, 24);
+		shutButton.setToolTipText("Stop the current order.");
 		shutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					stopOrder();
-				} catch (RemoteException e1) {
-					e1.printStackTrace();
-				}
+				stopOrder();
 			}
 
 		});
@@ -154,7 +158,9 @@ public class Client extends JFrame {
 
 		calibration = new JButton("Calibration");
 		calibration.setFont(new Font("Courier", Font.PLAIN, 14));
-		calibration.setBounds(198, 251, 194, 24);
+		calibration.setBounds(200, 250, 190, 24);
+		calibration
+				.setToolTipText("If a cup is placed before client initialization, please remove the cup and click Calibration.");
 		calibration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -216,13 +222,13 @@ public class Client extends JFrame {
 
 	protected void calibrate() throws RemoteException, InterruptedException {
 		updateStatus("Calibrating Cup Detector..");
-		Thread.sleep(500);
 		ci.calibration();
 		updateStatus("Cup Detector is ready");
 	}
 
 	public void makeOrder() throws RemoteException, InterruptedException {
 		if (ci.cupIsPresent()) {
+			updateStatus("Processing your order...");
 			checkOrder();
 		} else {
 			updateStatus("No cup detected!");
@@ -231,36 +237,20 @@ public class Client extends JFrame {
 
 	private void checkOrder() throws RemoteException, InterruptedException {
 		if (pickDrink1.isSelected()) {
-			updateStatus("Drink 1 is selected, Processing...");
-			Thread.sleep(500);
 			proceedOrder(1);
 		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 2 is selected, Processing...");
-			Thread.sleep(500);
 			proceedOrder(2);
 		} else if (pickDrink3.isSelected()) {
-			updateStatus("Drink 3 is selected, Processing...");
-			Thread.sleep(500);
 			proceedOrder(3);
-		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 4 is selected, Processing...");
-			Thread.sleep(500);
+		} else if (pickDrink4.isSelected()) {
 			proceedOrder(4);
-		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 5 is selected, Processing...");
-			Thread.sleep(500);
+		} else if (pickDrink5.isSelected()) {
 			proceedOrder(5);
-		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 6 is selected, Processing...");
-			Thread.sleep(500);
+		} else if (pickDrink6.isSelected()) {
 			proceedOrder(6);
-		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 7 is selected, Processing...");
-			Thread.sleep(500);
+		} else if (pickDrink7.isSelected()) {
 			proceedOrder(7);
-		} else if (pickDrink2.isSelected()) {
-			updateStatus("Drink 8 is selected, Processing...");
-			Thread.sleep(500);
+		} else if (pickDrink8.isSelected()) {
 			proceedOrder(8);
 		} else {
 			updateStatus("Please select one drink!");
@@ -269,105 +259,33 @@ public class Client extends JFrame {
 
 	private void proceedOrder(int i) throws RemoteException,
 			InterruptedException {
-		switch (i) {
-		case 1:
-			orderDrink1();
-			break;
-		case 2:
-			orderDrink2();
-			break;
-		case 3:
-			orderDrink3();
-			break;
-		case 4:
-			orderDrink4();
-			break;
-		case 5:
-			orderDrink5();
-			break;
-		case 6:
-			orderDrink6();
-			break;
-		case 7:
-			orderDrink7();
-			break;
-		case 8:
-			orderDrink8();
-			break;
-		default:
-			break;
+		startOrder(i);
+	}
+
+	private void startOrder(int i) {
+		System.out.println("Creating Handler...\n");
+		oh = new OrderHandler(ci);
+		System.out.println("Created Handler...\n");
+		oh.setOrderNumber(i);
+		System.out.println("Starting Order\n");
+		oh.start();
+		System.out.println("Done Order\n");
+	}
+
+	private void stopOrder() {
+		System.out.println("Stoping Order...\n");
+		if (!oh.isInterrupted()) {
+			oh.interrupt();
 		}
-
-	}
-
-	private void orderDrink1() throws RemoteException, InterruptedException {
-		ci.pinOn(4);
-		Thread.sleep((long) ci.getFlowTime(volume_in_L) - 500);
-		ci.pinOff(4);
-	}
-
-	private void orderDrink2() throws RemoteException, InterruptedException {
-		ci.pinOn(1);
-		ci.pinOn(2);
-		Thread.sleep(shotTime);
-		ci.pinOff(1);
-		ci.pinOff(2);
-	}
-
-	private void orderDrink3() throws RemoteException, InterruptedException {
-		ci.pinOn(1);
-		ci.pinOn(3);
-		Thread.sleep(shotTime);
-		ci.pinOff(1);
-		ci.pinOff(3);
-	}
-
-	private void orderDrink4() throws RemoteException, InterruptedException {
-		ci.pinOn(2);
-		ci.pinOn(3);
-		Thread.sleep(shotTime);
-		ci.pinOff(2);
-		ci.pinOff(3);
-	}
-
-	private void orderDrink5() throws RemoteException, InterruptedException {
-		ci.pinOn(1);
-		Thread.sleep(shotTime);
-		ci.pinOff(1);
-	}
-
-	private void orderDrink6() throws RemoteException, InterruptedException {
-		ci.pinOn(2);
-		Thread.sleep(shotTime);
-		ci.pinOff(2);
-	}
-
-	private void orderDrink7() throws RemoteException, InterruptedException {
-		ci.pinOn(3);
-		Thread.sleep(shotTime);
-		ci.pinOff(3);
-	}
-
-	private void orderDrink8() throws RemoteException, InterruptedException {
-		ci.pinOn(1);
-		ci.pinOn(2);
-		ci.pinOn(3);
-		Thread.sleep(shotTime);
-		ci.pinOff(1);
-		ci.pinOff(2);
-		ci.pinOff(3);
-	}
-
-	private void stopOrder() throws RemoteException {
-		ci.pinOff(1);
-		ci.pinOff(2);
-		ci.pinOff(3);
-		ci.pinOff(4);
+		oh = new OrderHandler(ci);
+		System.out.println("Created Handler...\n");
+		oh.setOrderNumber(9);
+		System.out.println("Stopping Order\n");
+		oh.start();
 	}
 
 	private void updateStatus(String text) {
 		statusBar.setText(text);
-		this.repaint();
 	}
 
 }
