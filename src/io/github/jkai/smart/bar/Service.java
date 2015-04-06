@@ -119,9 +119,13 @@ public class Service extends UnicastRemoteObject implements
 				startTime = currentTime;
 				// flow rate in L/H
 				flow_rate = 7.5 * count;
-				opentime = (0.05 / flow_rate) * 3600 * 1000;
-				count = 0;
-				return opentime;
+				if (flow_rate > 0) {
+					opentime = (0.05 / flow_rate) * 3600 * 1000;
+					count = 0;
+					return opentime;
+				} else {
+					return 2500;
+				}
 			}
 		}
 
