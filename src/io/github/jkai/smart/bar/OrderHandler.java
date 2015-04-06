@@ -6,7 +6,7 @@ public class OrderHandler extends Thread {
 
 	private static CommunicationInterface ci = null;
 	private static final long shotTime = 30000;
-	private static final double volume_in_L = 1;
+	private static final double volume_in_L = 0.05;
 	private static int orderNumber = 0;
 
 	public OrderHandler(CommunicationInterface ciPar) {
@@ -70,14 +70,21 @@ public class OrderHandler extends Thread {
 	}
 
 	private void orderSprite() throws RemoteException, InterruptedException {
-		// ci.pinOn(4);
-		// waitFor((long) ci.getFlowTime(volume_in_L) - 500);
-		// ci.pinOff(4);
-
 		ci.pinOn(4);
-		Thread.sleep(500);
+		System.out.println("pin4 on\n");
+		double duration = ci.getFlowTime(volume_in_L) - 1000;
+		System.out.println(duration + " is the time in ms!\n");
+		if (duration < 0) {
+			Thread.sleep(1000);
+			ci.pinOff(4);
+			System.out.println("pin4 off\n");
+		} else if (duration >= 5000) {
+			Thread.sleep(2000);
+		} else {
+			Thread.sleep((long) duration);
+			System.out.println("thread woke up\n");
+		}
 		ci.pinOff(4);
-
 	}
 
 	private void orderDrink2() throws RemoteException, InterruptedException {

@@ -20,7 +20,7 @@ public class Service extends UnicastRemoteObject implements
 	private GpioPinDigitalOutput pin2 = null;
 	private GpioPinDigitalOutput pin3 = null;
 	private GpioPinDigitalOutput pin4 = null;
-	private int flowCounter;
+	private int count;
 	private GpioController gpio = null;
 	private CupDetector cupChecker;
 
@@ -28,7 +28,7 @@ public class Service extends UnicastRemoteObject implements
 
 	public Service(int port) throws RemoteException {
 		super(port);
-		flowCounter = 0;
+		count = 0;
 		gpio = GpioFactory.getInstance();
 		pin0 = gpio.provisionDigitalInputPin(RaspiPin.GPIO_00,
 				PinPullResistance.PULL_DOWN);
@@ -98,46 +98,32 @@ public class Service extends UnicastRemoteObject implements
 
 	@Override
 	public double getFlowTime(double volume) throws RemoteException {
-		long startTime = System.currentTimeMillis();
+
+		long startTime;
 		long currentTime;
 		double flow_rate;
-
+		double opentime;
+		currentTime = System.currentTimeMillis();
+		startTime = currentTime;
 		pin0.addListener(new GpioPinListenerDigital() {
-			@Override
 			public void handleGpioPinDigitalStateChangeEvent(
 					GpioPinDigitalStateChangeEvent event) {
 				if (event.getState().isHigh()) {
-					countUp();
+					count++;
 				}
 			}
 		});
-
 		for (;;) {
 			currentTime = System.currentTimeMillis();
-			if (currentTime >= (startTime + 500)) {
-				double flow_rate_per_hour = 3.75 * 1000 * flowCounter;
-				flow_rate = flow_rate_per_hour / 3600;
-				flowCounter = 0;
-				break;
+			if (currentTime >= (startTime + 1000)) {
+				startTime = currentTime;
+				// flow rate in L/H
+				flow_rate = 7.5 * count;
+				opentime = (0.05 / flow_rate) * 3600 * 1000;
+				count = 0;
+				return opentime;
 			}
 		}
-		double time = volume / flow_rate;
-		if (time <= 0) {
-			return 2;
-		} else {
-			System.out.print(time);
-			return volume / flow_rate;
-		}
-
-	}
-
-	private void countUp() {
-		flowCounter++;
-	}
-
-	@Override
-	public void test() throws RemoteException {
-		System.out.println("Good\n");
 
 	}
 

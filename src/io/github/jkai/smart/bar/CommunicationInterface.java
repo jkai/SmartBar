@@ -17,8 +17,6 @@ public interface CommunicationInterface extends Remote {
 	
 	public double getFlowTime(double volume) throws RemoteException;
 	
-	public void test() throws RemoteException;
-	
 	public void calibration() throws RemoteException;
 	
 	public boolean cupIsPresent() throws RemoteException;
